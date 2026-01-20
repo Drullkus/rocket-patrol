@@ -11,4 +11,10 @@ const config = {
 
 const game = new Phaser.Game(config);
 
+const gameWidth = game.config.width;
+const gameHeight = game.config.height;
+
+const borderUISize = game.config.width / 15;
+const borderPadding = game.config.height / 45;
+
 var keyFIRE, keyRESET, keyLEFT, keyRIGHT;

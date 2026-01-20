@@ -12,12 +12,6 @@ class Rocket extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        const gameWidth = game.config.width;
-        const gameHeight = game.config.height;
-
-        const borderUISize = gameHeight / 15;
-        const borderPadding = gameHeight / 45;
-
         // left/right movement
         if (!this.isFiring) {
             if (keyLEFT.isDown && this.x >= borderUISize + this.width) {
@@ -39,8 +33,12 @@ class Rocket extends Phaser.GameObjects.Sprite {
         }
         // reset on miss
         if (this.y <= yPosReset) {
-            this.isFiring = false;
-            this.y = gameHeight - borderUISize - borderPadding;
+            this.reset();
         }
+    }
+
+    reset() {
+        this.isFiring = false;
+        this.y = gameHeight - borderUISize - borderPadding;
     }
 }

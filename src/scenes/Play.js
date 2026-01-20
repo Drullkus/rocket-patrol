@@ -4,12 +4,6 @@ class Play extends Phaser.Scene {
     }
     
     create() {
-        const gameWidth = game.config.width;
-        const gameHeight = game.config.height;
-
-        const borderUISize = gameHeight / 15;
-        const borderPadding = gameHeight / 45;
-
         // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, gameWidth, gameHeight, 'starfield').setOrigin(0, 0);
 
@@ -44,15 +38,16 @@ class Play extends Phaser.Scene {
 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship01)) {
-            console.log("kaboom ship 01");
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship01);
         };
-
         if(this.checkCollision(this.p1Rocket, this.ship02)) {
-            console.log("kaboom ship 02");
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship02);
         };
-
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
-            console.log("kaboom ship 03");
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship03);
         };
     }
 
@@ -62,5 +57,18 @@ class Play extends Phaser.Scene {
             && rocket.x + rocket.width > ship.x
             && rocket.y < ship.y + ship.height
             && rocket.height + rocket.y > ship.y;
+    }
+
+    shipExplode(ship) {
+        // temporarily hide ship
+        ship.alpha = 0;
+        // create explosion sprite at ship's position
+        const boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        boom.anims.play('explode');
+        boom.on('animationcomplete', () => {
+            ship.reset();
+            ship.alpha = 1;
+            boom.destroy();
+        });
     }
 }
